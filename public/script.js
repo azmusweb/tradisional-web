@@ -1,55 +1,35 @@
-const DATA_URL = "ISI_URL_JSON_SPREADSHEET_KAMU";
+const DATA_URL = "https://docs.google.com/spreadsheets/d/1iQOTyUy_92uhiLzwICcMrmHojDYkyRfzkSTS6c80-j4/gviz/tq?tqx=out:json&sheet=Live%20Website";
 
 fetch(DATA_URL)
-  .then(r => r.json())
-  .then(data => {
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
 
-    // tanggal
-    document.getElementById("date").innerText =
-      new Date().toLocaleDateString("id-ID", {
-        weekday:"long", year:"numeric", month:"long", day:"numeric"
-      });
-
-    // BREAKING
-    document.getElementById("breaking-text").innerText =
-      data.slice(0,5).map(d => d.judul).join(" • ");
-
-    // HERO
-    const heroMain = document.getElementById("hero-main");
-    const heroSide = document.getElementById("hero-side");
-
-    const main = data[0];
-    heroMain.innerHTML = `
-      <div class="hero-card">
-        <img src="${main.gambar}">
-        <div class="info">
-          <h2><a href="berita.html?slug=${main.slug}" style="color:white">${main.judul}</a></h2>
-        </div>
-      </div>
+    // HEADLINE (BERITA PERTAMA)
+    const h = rows[0].c;
+    document.getElementById("headline").innerHTML = `
+      <img src="${h[2].v}">
+      <h1>${h[0].v}</h1>
+      <p>${h[5].v}</p>
     `;
 
-    heroSide.innerHTML = data.slice(1,3).map(d => `
-      <div class="hero-card" style="margin-bottom:10px">
-        <img src="${d.gambar}">
-        <div class="info">
-          <a href="berita.html?slug=${d.slug}" style="color:white">${d.judul}</a>
-        </div>
-      </div>
-    `).join("");
-
-    // GRID
-    const grid = document.getElementById("news-grid");
-    data.slice(3).forEach(d => {
-      grid.innerHTML += `
-        <div class="card">
-          <img src="${d.gambar}">
-          <div class="content">
-            <span class="label">${d.label}</span>
-            <h3><a href="berita.html?slug=${d.slug}">${d.judul}</a></h3>
-            <small>${d.tanggal}</small>
+    // LIST BERITA
+    let list = "";
+    rows.slice(1).forEach(r => {
+      const c = r.c;
+      list += `
+        <div class="news-item">
+          <img src="${c[2].v}">
+          <div>
+            <small>${c[1].v}</small>
+            <h3>${c[0].v}</h3>
           </div>
         </div>
       `;
     });
+    document.getElementById("news").innerHTML = list;
 
+    // POPULER (SAMA DULU)
+    document.getElementById("popular").innerHTML = list.slice(0, 300);
   });
