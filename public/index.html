@@ -2,49 +2,52 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tradisional.web.id – Berita Terkini & Terpercaya</title>
-
-  <!-- SEO -->
-  <meta name="description" content="Tradisional.web.id menyajikan berita terkini, terpercaya, dan independen.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
+  <title>Tradisional.web.id - Berita Terkini</title>
+  <meta name="description" content="Berita terkini, terpercaya, dan aktual.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="top-header">
-  <div class="container header-wrap">
-    <div class="logo">TRADISIONAL</div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="container topbar-flex">
+    <div class="logo">Bukakabar</div>
     <nav class="menu">
-      <a href="/">Home</a>
-      <a href="#">Nasional</a>
-      <a href="#">Daerah</a>
-      <a href="#">Ekonomi</a>
+      <a href="#">Olahraga</a>
+      <a href="#">Bisnis</a>
+      <a href="#">Teknologi</a>
+      <a href="#">Wisata</a>
+      <a href="#">Religi</a>
     </nav>
+    <div class="right-info">
+      <span id="date"></span>
+    </div>
   </div>
-</header>
+</div>
 
-<!-- BREAKING NEWS -->
+<!-- BREAKING -->
 <div class="breaking">
-  <span>BREAKING</span>
-  <marquee>Berita terbaru Tradisional.web.id — update cepat & terpercaya</marquee>
+  <span>BREAKING NEWS</span>
+  <marquee id="breaking-text"></marquee>
 </div>
 
 <!-- MAIN -->
-<div class="container main-layout">
-  <!-- KONTEN -->
-  <main>
-    <h2 class="section-title">Berita Utama</h2>
-    <div id="news-list" class="news-grid"></div>
-  </main>
+<div class="container main-grid">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h3>Populer</h3>
-    <ul id="popular"></ul>
-  </aside>
+  <!-- HERO -->
+  <section class="hero">
+    <div id="hero-main"></div>
+    <div id="hero-side"></div>
+  </section>
+
+  <!-- GRID NEWS -->
+  <section>
+    <h2>Berita Terbaru</h2>
+    <div id="news-grid" class="grid-news"></div>
+  </section>
+
 </div>
 
 <footer class="footer">
