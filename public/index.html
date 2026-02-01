@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Tradisional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portal berita tradisional Indonesia">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Daftar Berita</h1>
-<div id="news"></div>
+<header class="topbar">
+  <div class="logo">TRADISIONAL</div>
+  <nav class="menu">
+    <a href="#">Home</a>
+    <a href="#">Nasional</a>
+    <a href="#">Daerah</a>
+    <a href="#">Budaya</a>
+  </nav>
+</header>
 
-<script>
-const DATA_URL = "https://docs.google.com/spreadsheets/d/1iQOTyUy_92uhiLzwICcMrmHojDYkyRfzkSTS6c80-j4/gviz/tq?tqx=out:json&sheet=Live%20Website";
+<main class="container">
+  <section class="headline" id="headline"></section>
 
-fetch(DATA_URL)
-  .then(res => res.text())
-  .then(text => {
-    const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
-    let html = "";
+  <section class="content">
+    <div class="news-list" id="news"></div>
+    <aside class="sidebar">
+      <h3>Terpopuler</h3>
+      <div id="popular"></div>
+    </aside>
+  </section>
+</main>
 
-    rows.forEach(r => {
-      html += `<h3>${r.c[0].v}</h3>`;
-    });
+<footer class="footer">
+  © 2026 Tradisional.web.id
+</footer>
 
-    document.getElementById("news").innerHTML = html;
-  });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
