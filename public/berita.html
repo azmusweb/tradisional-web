@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title id="judul">Berita</title>
+  <meta name="description" id="meta">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="container header-wrap">
+    <div class="logo">TRADISIONAL</div>
+  </div>
+</header>
+
+<main class="container" style="margin-top:25px">
+  <article id="artikel"></article>
+</main>
+
+<script>
+const DATA_URL = "ISI_URL_JSON_SPREADSHEET_KAMU";
+const slug = new URLSearchParams(location.search).get("slug");
+
+fetch(DATA_URL)
+  .then(r => r.json())
+  .then(data => {
+    const item = data.find(d => d.slug === slug);
+    if(!item) return;
+
+    document.title = item.judul;
+    document.getElementById("meta").content = item.meta;
+
+    document.getElementById("artikel").innerHTML = `
+      <h1>${item.judul}</h1>
+      <p><small>${item.tanggal} | ${item.label}</small></p>
+      <img src="${item.gambar}" style="width:100%;margin:15px 0">
+      <div>${item.body}</div>
+    `;
+  });
+</script>
+
+</body>
+</html>
