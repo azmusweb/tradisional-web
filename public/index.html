@@ -2,58 +2,30 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tradisional.web.id - Berita Terkini</title>
-  <meta name="description" content="Berita terkini, terpercaya, dan aktual.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="style.css">
+  <title>Tradisional</title>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="container topbar-flex">
-    <div class="logo">Bukakabar</div>
-    <nav class="menu">
-      <a href="#">Olahraga</a>
-      <a href="#">Bisnis</a>
-      <a href="#">Teknologi</a>
-      <a href="#">Wisata</a>
-      <a href="#">Religi</a>
-    </nav>
-    <div class="right-info">
-      <span id="date"></span>
-    </div>
-  </div>
-</div>
+<h1>Daftar Berita</h1>
+<div id="news"></div>
 
-<!-- BREAKING -->
-<div class="breaking">
-  <span>BREAKING NEWS</span>
-  <marquee id="breaking-text"></marquee>
-</div>
+<script>
+const DATA_URL = "https://docs.google.com/spreadsheets/d/1iQOTyUy_92uhiLzwICcMrmHojDYkyRfzkSTS6c80-j4/gviz/tq?tqx=out:json&sheet=Live%20Website";
 
-<!-- MAIN -->
-<div class="container main-grid">
+fetch(DATA_URL)
+  .then(res => res.text())
+  .then(text => {
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
+    let html = "";
 
-  <!-- HERO -->
-  <section class="hero">
-    <div id="hero-main"></div>
-    <div id="hero-side"></div>
-  </section>
+    rows.forEach(r => {
+      html += `<h3>${r.c[0].v}</h3>`;
+    });
 
-  <!-- GRID NEWS -->
-  <section>
-    <h2>Berita Terbaru</h2>
-    <div id="news-grid" class="grid-news"></div>
-  </section>
+    document.getElementById("news").innerHTML = html;
+  });
+</script>
 
-</div>
-
-<footer class="footer">
-  © 2026 Tradisional.web.id
-</footer>
-
-<script src="script.js"></script>
 </body>
 </html>
