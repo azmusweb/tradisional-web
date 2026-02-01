@@ -2,13 +2,55 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tradisional.web.id</title>
+  <title>Tradisional.web.id – Berita Terkini & Terpercaya</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Tradisional.web.id menyajikan berita terkini, terpercaya, dan independen.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Tradisional.web.id</h1>
-<p>Media berita berbasis spreadsheet.</p>
+<!-- HEADER -->
+<header class="top-header">
+  <div class="container header-wrap">
+    <div class="logo">TRADISIONAL</div>
+    <nav class="menu">
+      <a href="/">Home</a>
+      <a href="#">Nasional</a>
+      <a href="#">Daerah</a>
+      <a href="#">Ekonomi</a>
+    </nav>
+  </div>
+</header>
 
+<!-- BREAKING NEWS -->
+<div class="breaking">
+  <span>BREAKING</span>
+  <marquee>Berita terbaru Tradisional.web.id — update cepat & terpercaya</marquee>
+</div>
+
+<!-- MAIN -->
+<div class="container main-layout">
+  <!-- KONTEN -->
+  <main>
+    <h2 class="section-title">Berita Utama</h2>
+    <div id="news-list" class="news-grid"></div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h3>Populer</h3>
+    <ul id="popular"></ul>
+  </aside>
+</div>
+
+<footer class="footer">
+  © 2026 Tradisional.web.id
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
