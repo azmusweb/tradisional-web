@@ -1,87 +1,49 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Tradisional.web.id</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#f2f2f2}
-header{background:#b80000;color:#fff;padding:12px 20px;display:flex;justify-content:space-between}
-header a{color:#fff;margin-left:15px;text-decoration:none;font-weight:bold}
-.logo{font-size:22px;font-weight:bold}
-.container{max-width:1200px;margin:auto;padding:15px}
-#headline{background:#fff;padding:15px;border-radius:6px}
-#headline img{width:100%;border-radius:6px}
-.grid{display:grid;grid-template-columns:3fr 1fr;gap:20px;margin-top:20px}
-.news{background:#fff;border-radius:6px;padding:10px;margin-bottom:15px;display:flex;gap:10px}
-.news img{width:150px;height:100px;object-fit:cover}
-aside{background:#fff;padding:10px;border-radius:6px}
-footer{background:#222;color:#fff;text-align:center;padding:15px;margin-top:30px}
-@media(max-width:768px){.grid{grid-template-columns:1fr}}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Berita Saya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4 text-white shadow-lg">
+        <h1 class="text-2xl font-bold text-center">BERITA TERKINI</h1>
+    </nav>
 
-<header>
-  <div class="logo">TRADISIONAL</div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Nasional</a>
-    <a href="#">Daerah</a>
-    <a href="#">Budaya</a>
-  </nav>
-</header>
+    <div id="news-container" class="max-w-4xl mx-auto p-4 grid gap-6">
+        <p class="text-center">Sedang memuat berita...</p>
+    </div>
 
-<div class="container">
-  <div id="headline">Loading...</div>
+    <script>
+        // GANTI URL DI BAWAH DENGAN WEB APP URL DARI GOOGLE APPS SCRIPT KAMU
+        const API_URL = "URL_WEB_APP_KAMU_DI_SINI";
 
-  <div class="grid">
-    <div id="list"></div>
-    <aside>
-      <h3>Terpopuler</h3>
-      <div id="popular"></div>
-    </aside>
-  </div>
-</div>
+        async function loadNews() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
 
-<footer>© 2026 Tradisional.web.id</footer>
+                data.forEach(post => {
+                    container.innerHTML += `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="${post.gambar}" class="w-full h-64 object-cover">
+                            <div class="p-6">
+                                <span class="text-blue-500 font-bold text-sm uppercase">${post.kategori}</span>
+                                <h2 class="text-2xl font-bold mt-2">${post.judul}</h2>
+                                <p class="text-gray-600 mt-4">${post.konten}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("Gagal ambil data:", error);
+            }
+        }
 
-<script>
-const URL="https://docs.google.com/spreadsheets/d/1iQOTyUy_92uhiLzwICcMrmHojDYkyRfzkSTS6c80-j4/gviz/tq?tqx=out:json&sheet=Live%20Website";
-
-fetch(URL)
-.then(r=>r.text())
-.then(t=>{
-  const j=JSON.parse(t.substring(47).slice(0,-2));
-  const rows=j.table.rows;
-
-  const h=rows[0].c;
-  document.getElementById("headline").innerHTML=`
-    <img src="${h[2].v}">
-    <h1>${h[0].v}</h1>
-    <p>${h[5].v}</p>
-  `;
-
-  let html="";
-  rows.slice(1).forEach(r=>{
-    const c=r.c;
-    html+=`
-      <div class="news">
-        <img src="${c[2].v}">
-        <div>
-          <small>${c[1].v}</small>
-          <h3>${c[0].v}</h3>
-        </div>
-      </div>
-    `;
-  });
-  document.getElementById("list").innerHTML=html;
-  document.getElementById("popular").innerHTML=html;
-});
-</script>
-
+        loadNews();
+    </script>
 </body>
 </html>
