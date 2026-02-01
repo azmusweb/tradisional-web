@@ -1,34 +1,55 @@
 const DATA_URL = "ISI_URL_JSON_SPREADSHEET_KAMU";
 
 fetch(DATA_URL)
-  .then(res => res.json())
+  .then(r => r.json())
   .then(data => {
-    const list = document.getElementById("news-list");
-    const popular = document.getElementById("popular");
 
-    list.innerHTML = "";
-    popular.innerHTML = "";
+    // tanggal
+    document.getElementById("date").innerText =
+      new Date().toLocaleDateString("id-ID", {
+        weekday:"long", year:"numeric", month:"long", day:"numeric"
+      });
 
-    data.slice().reverse().forEach((item, i) => {
-      // HOME CARD
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${item.gambar}" alt="${item.judul}">
-        <h3>
-          <a href="berita.html?slug=${item.slug}">
-            ${item.judul}
-          </a>
-        </h3>
+    // BREAKING
+    document.getElementById("breaking-text").innerText =
+      data.slice(0,5).map(d => d.judul).join(" • ");
+
+    // HERO
+    const heroMain = document.getElementById("hero-main");
+    const heroSide = document.getElementById("hero-side");
+
+    const main = data[0];
+    heroMain.innerHTML = `
+      <div class="hero-card">
+        <img src="${main.gambar}">
+        <div class="info">
+          <h2><a href="berita.html?slug=${main.slug}" style="color:white">${main.judul}</a></h2>
+        </div>
+      </div>
+    `;
+
+    heroSide.innerHTML = data.slice(1,3).map(d => `
+      <div class="hero-card" style="margin-bottom:10px">
+        <img src="${d.gambar}">
+        <div class="info">
+          <a href="berita.html?slug=${d.slug}" style="color:white">${d.judul}</a>
+        </div>
+      </div>
+    `).join("");
+
+    // GRID
+    const grid = document.getElementById("news-grid");
+    data.slice(3).forEach(d => {
+      grid.innerHTML += `
+        <div class="card">
+          <img src="${d.gambar}">
+          <div class="content">
+            <span class="label">${d.label}</span>
+            <h3><a href="berita.html?slug=${d.slug}">${d.judul}</a></h3>
+            <small>${d.tanggal}</small>
+          </div>
+        </div>
       `;
-      list.appendChild(card);
-
-      // SIDEBAR POPULER
-      if(i < 5){
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="berita.html?slug=${item.slug}">${item.judul}</a>`;
-        popular.appendChild(li);
-      }
     });
-  })
-  .catch(err => console.error(err));
+
+  });
