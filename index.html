@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Tradisional.web.id</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portal berita Tradisional Indonesia">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Tradisional.web.id</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f2f2f2}
+header{background:#b80000;color:#fff;padding:12px 20px;display:flex;justify-content:space-between}
+header a{color:#fff;margin-left:15px;text-decoration:none;font-weight:bold}
+.logo{font-size:22px;font-weight:bold}
+.container{max-width:1200px;margin:auto;padding:15px}
+#headline{background:#fff;padding:15px;border-radius:6px}
+#headline img{width:100%;border-radius:6px}
+.grid{display:grid;grid-template-columns:3fr 1fr;gap:20px;margin-top:20px}
+.news{background:#fff;border-radius:6px;padding:10px;margin-bottom:15px;display:flex;gap:10px}
+.news img{width:150px;height:100px;object-fit:cover}
+aside{background:#fff;padding:10px;border-radius:6px}
+footer{background:#222;color:#fff;text-align:center;padding:15px;margin-top:30px}
+@media(max-width:768px){.grid{grid-template-columns:1fr}}
+</style>
+
 </head>
 <body>
 
-<header class="topbar">
+<header>
   <div class="logo">TRADISIONAL</div>
   <nav>
     <a href="#">Home</a>
@@ -19,22 +35,53 @@
   </nav>
 </header>
 
-<main class="container">
-  <section id="headline"></section>
+<div class="container">
+  <div id="headline">Loading...</div>
 
-  <section class="grid">
-    <div id="news"></div>
+  <div class="grid">
+    <div id="list"></div>
     <aside>
       <h3>Terpopuler</h3>
       <div id="popular"></div>
     </aside>
-  </section>
-</main>
+  </div>
+</div>
 
-<footer>
-  © 2026 Tradisional.web.id
-</footer>
+<footer>© 2026 Tradisional.web.id</footer>
 
-<script src="script.js"></script>
+<script>
+const URL="https://docs.google.com/spreadsheets/d/1iQOTyUy_92uhiLzwICcMrmHojDYkyRfzkSTS6c80-j4/gviz/tq?tqx=out:json&sheet=Live%20Website";
+
+fetch(URL)
+.then(r=>r.text())
+.then(t=>{
+  const j=JSON.parse(t.substring(47).slice(0,-2));
+  const rows=j.table.rows;
+
+  const h=rows[0].c;
+  document.getElementById("headline").innerHTML=`
+    <img src="${h[2].v}">
+    <h1>${h[0].v}</h1>
+    <p>${h[5].v}</p>
+  `;
+
+  let html="";
+  rows.slice(1).forEach(r=>{
+    const c=r.c;
+    html+=`
+      <div class="news">
+        <img src="${c[2].v}">
+        <div>
+          <small>${c[1].v}</small>
+          <h3>${c[0].v}</h3>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById("list").innerHTML=html;
+  document.getElementById("popular").innerHTML=html;
+});
+</script>
+
 </body>
 </html>
