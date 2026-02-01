@@ -2,44 +2,42 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title id="judul">Berita</title>
+  <title id="title">Berita</title>
   <meta name="description" id="meta">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="top-header">
-  <div class="container header-wrap">
-    <div class="logo">TRADISIONAL</div>
+<div class="topbar">
+  <div class="container topbar-flex">
+    <div class="logo">Bukakabar</div>
   </div>
-</header>
+</div>
 
-<main class="container" style="margin-top:25px">
-  <article id="artikel"></article>
-</main>
+<main class="container" id="content" style="margin-top:20px"></main>
 
 <script>
 const DATA_URL = "ISI_URL_JSON_SPREADSHEET_KAMU";
 const slug = new URLSearchParams(location.search).get("slug");
 
 fetch(DATA_URL)
-  .then(r => r.json())
-  .then(data => {
-    const item = data.find(d => d.slug === slug);
-    if(!item) return;
+.then(r=>r.json())
+.then(data=>{
+  const d = data.find(x=>x.slug===slug);
+  if(!d) return;
 
-    document.title = item.judul;
-    document.getElementById("meta").content = item.meta;
+  document.title = d.judul;
+  document.getElementById("meta").content = d.meta;
 
-    document.getElementById("artikel").innerHTML = `
-      <h1>${item.judul}</h1>
-      <p><small>${item.tanggal} | ${item.label}</small></p>
-      <img src="${item.gambar}" style="width:100%;margin:15px 0">
-      <div>${item.body}</div>
-    `;
-  });
+  document.getElementById("content").innerHTML = `
+    <h1>${d.judul}</h1>
+    <small>${d.tanggal} | ${d.label}</small>
+    <img src="${d.gambar}" style="width:100%;margin:15px 0">
+    <div>${d.body}</div>
+  `;
+});
 </script>
 
 </body>
